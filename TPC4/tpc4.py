@@ -26,8 +26,7 @@ class TPC4():
                 if operação:value = operação.group(0)
                 if betweenValues:
                         listinha=[]
-                        new= key+max
-                        for n in row[new]: listinha.append(int(n))
+                        for n in row[0:max]: listinha.append(int(n))
                         if value == "sum":
                             row[value] = sum(listinha)
                         if value == "media":
