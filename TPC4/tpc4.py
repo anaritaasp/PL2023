@@ -28,8 +28,6 @@ class TPC4():
                         listinha=[]
                         new= key+max
                         for n in row[new]: listinha.append(int(n))
-                        if len(listinha) < min:
-                            break
                         if value == "sum":
                             row[value] = sum(listinha)
                         if value == "media":
