@@ -22,28 +22,41 @@ def print_saldo_format(saldo):
     return final_saldo
 
 
-def testNumero(numero,saldo):
-    if (numero.isnumeric() == False):
-        print("ERRO: por favor introduza o número no formato correto (apenas dígitos)")
-    if (numero.startWwith('00')== False):
-        if (len(numero)!= 9): print("ERRO: por favor insira 9 dígitos")
-        if (numero.startWwith('601') or numero.startWwith('641')):
-            print ("Esse número não é permitido neste telefone. Queira discar novo número!")
-        if (numero.startWith('2')):
-            if (saldo < 0.25): print ("Não tem saldo suficiente para efetuar esta chamada")
-            else: saldo -= 0.25
-        if (numero.startWith('808')):
-            if (saldo < 0.10): print ("Não tem saldo suficiente para efetuar esta chamada")
-            else: 
-                saldo -= 0.10
-                print ("saldo =", saldo)   
-        else: #chamada 800, custo = 0
-            print ("saldo =", saldo)
-    elif (numero.startWwith('00')):
-         if (saldo < 1.50): print ("Não tem saldo suficiente para efetuar esta chamada")
-         else: 
-                saldo -= 1.50
-                print ("saldo =", saldo) 
+def testNumero(telefone,saldoo):
+   saldo = float(saldoo)
+   if telefone.startswith("T="):
+        telefone= telefone.replace("T=", "")
+        if (telefone.isnumeric() == False):
+                 print("ERRO: por favor introduza o número no formato correto (apenas dígitos)")
+                 newTelefone = input()
+                 testNumero(newTelefone,saldo)
+        if (telefone.startswith('00')== False):
+                if (len(telefone)!= 9): 
+                    print("ERRO: por favor insira 9 dígitos")
+                    newTelefone = input()
+                    testNumero(newTelefone,saldo)
+                if (telefone.startswith('601') or telefone.startswith('641')):
+                    print ("Esse número não é permitido neste telefone. Queira discar novo número!")
+                    newTelefone = input()
+                    testNumero(newTelefone,saldo)
+                if (telefone.startswith('2')):
+                    if (float(saldo) < 0.25): 
+                        print ("Não tem saldo suficiente para efetuar esta chamada")
+                    else: 
+                        saldo -= 0.25
+                        print ("saldo = ", print_saldo_format (saldo)) 
+                if (telefone.startswith('808')):
+                    if (float(saldo) < 0.10): print ("Não tem saldo suficiente para efetuar esta chamada")
+                    else: 
+                        saldo -= 0.10
+                        print ("saldo = ", print_saldo_format (saldo)) 
+                if (telefone.startswith('800')):
+                    print ("saldo = ", print_saldo_format (saldo)) 
+        elif (telefone.startswith('00')):
+                if (float(saldo) < 1.50): print ("Não tem saldo suficiente para efetuar esta chamada")
+                else: 
+                        saldo -= 1.50
+                        print ("saldo = ", print_saldo_format (saldo)) 
             
                   
 
@@ -66,29 +79,7 @@ if (re.fullmatch("LEVANTAR", line)):
         saldo = "%.2f" % getSaldo(valid_moedas)
         if len(invalid_moedas)>0: print (''.join(invalid_moedas)," - moeda inválida; saldo = ",print_saldo_format(saldo))
     telefone = input()
-    if telefone.startswith("T="):
-        telefone= telefone.replace("T=", "")
-        if (telefone.isnumeric() == False):
-                 print("ERRO: por favor introduza o número no formato correto (apenas dígitos)")
-        if (telefone.startswith('00')== False):
-                if (len(telefone)!= 9): print("ERRO: por favor insira 9 dígitos")
-                if (telefone.startswith('601') or telefone.startswith('641')):
-                    print ("Esse número não é permitido neste telefone. Queira discar novo número!")
-                if (telefone.startswith('2')):
-                    if (saldo < 0.25): print ("Não tem saldo suficiente para efetuar esta chamada")
-                    else: saldo -= 0.25
-                if (telefone.startswith('808')):
-                    if (saldo < 0.10): print ("Não tem saldo suficiente para efetuar esta chamada")
-                    else: 
-                        saldo -= 0.10
-                        print ("saldo = ", print_saldo_format (saldo)) 
-                else: #chamada 800, custo = 0
-                    print ("saldo = ", print_saldo_format (saldo)) 
-        elif (telefone.startswith('00')):
-                if (saldo < 1.50): print ("Não tem saldo suficiente para efetuar esta chamada")
-                else: 
-                        saldo -= 1.50
-                        print ("saldo = ", print_saldo_format (saldo)) 
+    testNumero(telefone,saldo)
 if (re.fullmatch("POUSAR", line)):
                on = 0
                print("troco =", print_saldo_format(saldo), "; Volte sempre!")
